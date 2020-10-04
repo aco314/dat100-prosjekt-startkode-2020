@@ -91,12 +91,6 @@ public class ShowRoute extends EasyGraphics {
 			y = ybase - (y - ymin);
 			fillCircle((int)(x), (int)y, 3);
 			
-			// Stor blå prikk på siste punkt:
-			if (i == londiff.length-1) {
-				setColor(0, 0, 255);
-				fillCircle((int)(x), (int)y, 6);
-			}
-			
 			// Strek mellom nåværende og forrige punkt:
 			if (i >= 1) {
 				double prevX = londiff[i-1];
@@ -105,6 +99,12 @@ public class ShowRoute extends EasyGraphics {
 				prevX = prevX + MARGIN + Math.abs(xmin);
 				prevY = ybase - (prevY - ymin);
 				drawLine((int)prevX, (int)prevY, (int)x, (int)y);
+			}
+			
+			// Stor blå prikk på siste punkt:
+			if (i == londiff.length-1) {
+				setColor(0, 0, 255);
+				fillCircle((int)(x), (int)y, 6);
 			}
 		}
 		

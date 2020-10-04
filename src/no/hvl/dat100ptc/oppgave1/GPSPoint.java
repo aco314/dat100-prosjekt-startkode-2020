@@ -57,7 +57,7 @@ public class GPSPoint {
 	
 	public String toString() {
 		
-		return this.time + " (" + this.latitude + "," + this.longitude + ") " + this.elevation + "\n";
+		return time + " (" + latitude + "," + longitude + ") " + elevation + "\n";
 		
 	}
 }

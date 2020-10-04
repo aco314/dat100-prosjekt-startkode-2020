@@ -1,5 +1,6 @@
 package no.hvl.dat100ptc.oppgave5;
 
+
 import javax.swing.JOptionPane;
 
 import easygraphics.EasyGraphics;
@@ -52,38 +53,85 @@ public class ShowRoute extends EasyGraphics {
 
 	// antall y-pixels per breddegrad
 	public double ystep() {
+		
+		double maxlat = GPSUtils.findMax(GPSUtils.getLatitudes(gpspoints));
+		double minlat = GPSUtils.findMin(GPSUtils.getLatitudes(gpspoints));
 	
-		double ystep;
+		double ystep = MAPYSIZE / (Math.abs(maxlat - minlat));
 		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-
-		// TODO - SLUTT
-		
+		return ystep;
 	}
 
 	public void showRouteMap(int ybase) {
 
-		// TODO - START
+		double[] longs = GPSUtils.getLongitudes(gpspoints);
+		double[] lats = GPSUtils.getLatitudes(gpspoints);
 		
-		throw new UnsupportedOperationException(TODO.method());
+		double[] londiff = new double[longs.length-1];
+		double[] latdiff = new double[lats.length-1];
 		
-		// TODO - SLUTT
+		for (int i = 0; i < longs.length-1; i++) {
+			
+			londiff[i] = xstep() * (longs[i+1] - longs[0]);
+			latdiff[i] = ystep() * (lats[i+1] - lats[0]);
+		}
+
+		// Finner det vestligste og laveste punktet
+		double xmin = GPSUtils.findMin(londiff);
+		double ymin = GPSUtils.findMin(latdiff);
+		setColor(0, 255, 0);
+		
+		for (int i = 0; i < londiff.length; i++) {
+			
+			// Grønn prikk på nåværende punkt:
+			double x = londiff[i];
+			double y = latdiff[i];
+
+			x = x + MARGIN + Math.abs(xmin);
+			y = ybase - (y - ymin);
+			fillCircle((int)(x), (int)y, 3);
+			
+			// Stor blå prikk på siste punkt:
+			if (i == londiff.length-1) {
+				setColor(0, 0, 255);
+				fillCircle((int)(x), (int)y, 6);
+			}
+			
+			// Strek mellom nåværende og forrige punkt:
+			if (i >= 1) {
+				double prevX = londiff[i-1];
+				double prevY = latdiff[i-1];
+				
+				prevX = prevX + MARGIN + Math.abs(xmin);
+				prevY = ybase - (prevY - ymin);
+				drawLine((int)prevX, (int)prevY, (int)x, (int)y);
+			}
+		}
+		
 	}
 
 	public void showStatistics() {
 
-		int TEXTDISTANCE = 20;
+		//int TEXTDISTANCE = 20;
 
 		setColor(0,0,0);
 		setFont("Courier",12);
 		
-		// TODO - START
+		String totalTime = GPSUtils.formatTime(gpscomputer.totalTime());
+		String totalDistance = GPSUtils.formatDouble(gpscomputer.totalDistance()/1000);
+		String totalElev = GPSUtils.formatDouble(gpscomputer.totalElevation());
+		String maxSpeed = GPSUtils.formatDouble(gpscomputer.maxSpeed());
+		String avgSpeed = GPSUtils.formatDouble(gpscomputer.averageSpeed());
+		String energy = GPSUtils.formatDouble(gpscomputer.totalKcal(80));
 		
-		throw new UnsupportedOperationException(TODO.method());
+		drawString("Total Time     :" + totalTime + " ", MARGIN, 20);
+		drawString("Total distance :" + totalDistance + " km ", MARGIN, 40);
+		drawString("Total elevation:" + totalElev + " m ", MARGIN, 60);
+		drawString("Max speed      :" + maxSpeed + " km/t ", MARGIN, 80);
+		drawString("Average speed  :" + avgSpeed + " km/t ", MARGIN, 100);
+		drawString("Energy         :" + energy + " kcal ", MARGIN, 120);
 		
-		// TODO - SLUTT;
 	}
-
 }
+
+

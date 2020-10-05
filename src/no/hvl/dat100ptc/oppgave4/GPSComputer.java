@@ -1,5 +1,7 @@
 package no.hvl.dat100ptc.oppgave4;
 
+import java.util.Arrays;
+
 import no.hvl.dat100ptc.TODO;
 import no.hvl.dat100ptc.oppgave1.GPSPoint;
 import no.hvl.dat100ptc.oppgave2.GPSData;
@@ -75,6 +77,27 @@ public class GPSComputer {
 		return speeds;
 	}
 	
+	// Ekstraoppgave 6a
+	public double[] climbs() {
+		
+		double[] climbs = new double[gpspoints.length-1];
+		
+		for (int i = 0; i < climbs.length; i++) {
+			//elevdiff[i] = GPSUtils.elevation(gpspoints[i], gpspoints[i+1]);
+			//distancediff[i] = GPSUtils.distance(gpspoints[i], gpspoints[i+1]);
+			climbs[i] = GPSUtils.elevation(gpspoints[i], gpspoints[i+1]) / GPSUtils.distance(gpspoints[i], gpspoints[i+1]) * 100;
+		}
+		
+		return climbs;
+		
+	}
+	
+	public double maxClimbs() {
+		double[] climbs = climbs();
+		return GPSUtils.findMax(climbs);
+	}
+	// ------------------------------------
+
 	public double maxSpeed() {
 		
 		double[] speeds = speeds();
@@ -149,5 +172,9 @@ public class GPSComputer {
 		System.out.println("Energy         : " + GPSUtils.formatDouble(totalKcal(WEIGHT)) + " kcal");
 		System.out.println("==============================================");
 	}
-
+	
 }
+
+
+
+

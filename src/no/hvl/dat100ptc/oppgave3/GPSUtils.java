@@ -83,6 +83,14 @@ public class GPSUtils {
 
 		return 3.6 * distance / secs;
 	}
+	
+	// Del av oppgave 6a:
+	public static double elevation(GPSPoint gpspoint1, GPSPoint gpspoint2) {
+		
+		double elev = gpspoint2.getElevation() - gpspoint1.getElevation();
+		return elev;
+	}
+	// ------------------------
 
 	public static String formatTime(int secs) {
 

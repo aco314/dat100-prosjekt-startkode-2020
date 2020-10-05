@@ -37,16 +37,26 @@ public class ShowProfile extends EasyGraphics {
 		int N = gpspoints.length; // number of data points
 
 		makeWindow("Height profile", 2 * MARGIN + 3 * N, 2 * MARGIN + MAXBARHEIGHT);
-
+		
 		// top margin + height of drawing area
 		showHeightProfile(MARGIN + MAXBARHEIGHT); 
 	}
-
+	
 	public void showHeightProfile(int ybase) {
 
+		int scale = Integer.valueOf(getText("Skaleringstid"));
+		
 		// ybase indicates the position on the y-axis where the columns should start
 		
 		for (int i = 0; i < gpspoints.length; i++) {
+			
+			// Del av ekstraoppgave 6b:
+			if (i != gpspoints.length-1) {
+				int timediff = gpspoints[i+1].getTime() - gpspoints[i].getTime();
+				timediff = timediff/scale;
+				pause(timediff * 1000); // Ganger med 1000 for å gjøre om fra s til ms
+			}
+			// ----------------------------------
 			
 			int elev = (int)gpspoints[i].getElevation();
 			int x = MARGIN + 3*i;
@@ -57,8 +67,9 @@ public class ShowProfile extends EasyGraphics {
 			}
 			
 			drawLine(x, ybase, x, y2);
+			
+			
 		}
-		
 		
 	}
 

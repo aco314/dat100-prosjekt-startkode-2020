@@ -83,13 +83,10 @@ public class GPSComputer {
 		double[] climbs = new double[gpspoints.length-1];
 		
 		for (int i = 0; i < climbs.length; i++) {
-			//elevdiff[i] = GPSUtils.elevation(gpspoints[i], gpspoints[i+1]);
-			//distancediff[i] = GPSUtils.distance(gpspoints[i], gpspoints[i+1]);
 			climbs[i] = GPSUtils.elevation(gpspoints[i], gpspoints[i+1]) / GPSUtils.distance(gpspoints[i], gpspoints[i+1]) * 100;
 		}
 		
 		return climbs;
-		
 	}
 	
 	public double maxClimbs() {

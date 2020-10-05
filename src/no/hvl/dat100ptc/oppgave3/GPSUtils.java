@@ -113,3 +113,4 @@ public class GPSUtils {
 		return result;
 	}
 }
+

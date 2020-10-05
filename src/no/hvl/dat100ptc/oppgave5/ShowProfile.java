@@ -68,7 +68,6 @@ public class ShowProfile extends EasyGraphics {
 			
 			drawLine(x, ybase, x, y2);
 			
-			
 		}
 		
 	}
